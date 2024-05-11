@@ -1,0 +1,129 @@
+﻿@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Homepage";
+}
+
+<form method="post">
+    <select name="categoryId">
+        @if (ViewBag.PickCategory == 0)
+        {
+            <option value="0" selected>All</option>
+        }
+        else
+        {
+            <option value="0">All</option>
+        }
+        @foreach (var category in ViewBag.Categories)
+        {
+            <option value="@category.CategoryId">@category.CategoryName</option>
+            if (ViewBag.PickCategory == category.CategoryId)
+            {
+                <option value="@category.CategoryId" selected>@category.CategoryName</option>
+            }
+                
+        }
+    </select>
+    <button type="submit" asp-controller="Home" asp-action="List">Filter</button>
+</form>
+
+
+<table>
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Stock</th>
+        <th>Image</th>
+        <th>CategoryName</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    
+    <tbody>
+    @foreach (Product p in Model)
+    {
+        <tr>
+            <th>
+                <a href="/Home/List?pr=@p.ProductId">@p.ProductId</a>
+            </th>
+            <th>@p.ProductName</th>
+            <th>@p.UnitPrice</th>
+            <th>@p.UnitsInStock</th>
+            <th>@p.Category.CategoryName</th>
+            <th>@p.Image</th>
+            <th>
+                <form method="post" action="/Home/DeleteProduct">
+                    <button type="submit" name="deleteId" value="@p.ProductId">Delete</button>
+                </form>
+            </th>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<h1>Information of Product</h1>
+<form method="post">
+    
+    @if (ViewBag.productId != null && ViewBag.productId != 0)
+    {
+        <span>Id</span>
+        <input type="text" name="hahahahahahaha" value="@ViewBag.CurrentProduct.ProductId" disabled/>
+        <input type="hidden" name="ProductId" value="@ViewBag.CurrentProduct.ProductId"/>
+        <span>Name</span>
+        <input type="text" name="ProductName" value="@ViewBag.CurrentProduct.ProductName"/>
+        <br/>
+        <span>Price</span>
+        <input type="text" name="UnitPrice" value="@ViewBag.CurrentProduct.UnitPrice"/>
+        <span>Stock</span>
+        <input type="text" name="UnitsInStock" value="@ViewBag.CurrentProduct.UnitsInStock"/>
+        <br/>
+        <span>Categories</span>
+        <select name="CategoryId">
+            <option value="All">All</option>
+            @foreach (var category in ViewBag.Categories)
+            {
+                <option value="@category.CategoryId">@category.CategoryName</option>
+                if (ViewBag.CurrentProduct.CategoryId == category.CategoryId)
+                {
+                    <option value="@category.CategoryId" selected>@category.CategoryName</option>
+                }
+            }
+        </select>
+        <span>Image</span>
+        <input type="text" name="Image" value="@ViewBag.CurrentProduct.Image"/>
+        <br/>
+        <button type="submit" asp-controller="Home" asp-action="UpdateProduct">Update</button>
+
+    }
+    else
+    {
+        <span>Name</span>
+        <input type="text" name="ProductName" value=""/>
+        <br/>
+        <span>Price</span>
+        <input type="text" name="UnitPrice" value=""/>
+        <span>Stock</span>
+        <input type="text" name="UnitsInStock" value=""/>
+        <br/>
+        <span>Categories</span>
+        <select name="CategoryId">
+            <option value="0" selected>All</option>
+            @foreach (var category in ViewBag.Categories)
+            {
+                <option value="@category.CategoryId">@category.CategoryName</option>
+
+            }
+        </select>
+        <span>Image</span>
+        <input type="text" name="Image" value=""/>
+        <br/>
+        <button type="submit" asp-controller="Home" asp-action="AddProduct">Add</button>
+    }
+
+</form>
+
+                
