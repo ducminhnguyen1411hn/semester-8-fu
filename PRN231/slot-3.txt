@@ -1,0 +1,9 @@
+Dạy cơ bản HTTPMethod, RESTFUL, REST API
+
+Nói 1 chút về swagger
+
+Nói về việc đi thi quên không đổi port là đi.
+
+Nói về full HTTP Methodm, coding dựa trên example student.
+
+Chưa đụng database, chỉ đụng trên RAM.
